@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak Kami - Nama Toko Anda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            position: sticky; /* Membuat header sticky */
+            top: 0; /* Menempel di bagian atas */
+            z-index: 100; /* Memastikan header di atas konten lain */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Efek bayangan */
+            display: flex; /* Untuk menata logo dan konten */
+            align-items: center; /* Pusatkan vertikal */
+            justify-content: space-between; /* Menyebar elemen */
+            padding: 0.5rem 5%; /* Padding menyesuaikan, 5% dari lebar */
+        }
+        header .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        header .logo-container img {
+            height: 50px; /* Ukuran logo */
+            margin-right: 15px; /* Jarak antara logo dan teks */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8em; /* Ukuran judul */
+        }
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        header nav ul li {
+            margin: 0 15px;
+        }
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        header nav ul li a:hover {
+            color: #ddd;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px 0;
+            padding-top: 80px; /* Memberikan ruang agar konten tidak tertutup header sticky */
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .contact-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .contact-section h3 {
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .submit-button {
+            background-color: #25D366;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .submit-button:hover {
+            background-color: #1DA851;
+        }
+        .map-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .map-container h3 {
+            margin-bottom: 20px;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            text-align: left;
+        }
+        footer .footer-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        footer .footer-column {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+        }
+        footer .footer-column h4 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        footer .footer-column p,
+        footer .footer-column ul {
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        footer .footer-column ul li a {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 5px;
+            display: block;
+        }
+        footer .footer-column ul li a:hover {
+            text-decoration: underline;
+        }
+        footer .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #555;
+            padding-top: 20px;
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        /* Responsif untuk header */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column; /* Ubah arah flex menjadi kolom */
+                padding: 1rem 2%; /* Sesuaikan padding */
+            }
+            header .logo-container {
+                margin-bottom: 10px; /* Beri jarak di bawah logo */
+            }
+            header nav ul {
+                flex-wrap: wrap; /* Izinkan menu wrap */
+                justify-content: center;
+            }
+            header nav ul li {
+                margin: 5px 10px; /* Sesuaikan margin menu */
+            }
+            .container {
+                padding-top: 120px; /* Sesuaikan padding-top untuk header yang lebih tinggi di mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo KSAinovasi">
+            <h1>Nama Toko Anda</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about-us">About Us</a></li>
+                <li><a href="kontaktemplate2.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Kontak Kami</h2>
+
+        <div class="contact-section">
+            <h3>Kirim Pesan Langsung via WhatsApp</h3>
+            <form id="whatsappForm">
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email (Opsional):</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="subjek">Subjek Pesan:</label>
+                    <input type="text" id="subjek" name="subjek" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesan">Pesan Anda:</label>
+                    <textarea id="pesan" name="pesan" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Kirim Pesan ke WhatsApp</button>
+            </form>
+        </div>
+
+        <div class="map-container">
+            <h3>Lokasi Kami</h3>
+            <p>Silakan kunjungi kami di alamat berikut:</p>
+            <p><strong>📍 123 Business Street, Jakarta, Indonesia</strong></p>
+            <iframe
+                src="https://maps.app.goo.gl/YOUR_Maps_LINK"
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <p style="margin-top: 15px;"><a href="https://maps.app.goo.gl/YOUR_Maps_LINK_HERE" target="_blank">Lihat di Google Maps</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>KSAinovasi</h4>
+                <p>Providing high-quality products and exceptional service since 2010.</p>
+                <p>Your trusted partner for all your needs.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about-us">About Us</a></li>
+                    <li><a href="kontaktemplate2.html">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <p>📍 123 Business Street, Jakarta, Indonesia</p>
+                <p>📞 +62 87886425562</p>
+                <p>📧 info@ksainovasi.com</p>
+                <p>🕒 Monday-Friday: 9am to 5pm</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 KSAinovasi. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('whatsappForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nama = document.getElementById('nama').value;
+            const email = document.getElementById('email').value;
+            const subjek = document.getElementById('subjek').value;
+            const pesan = document.getElementById('pesan').value;
+            const phoneNumber = '6287886425562';
+
+            let whatsappText = `Halo, saya ${nama}.`;
+            if (email) {
+                whatsappText += ` Email saya: ${email}.`;
+            }
+            whatsappText += ` Subjek: ${subjek}. Pesan: ${pesan}`;
+
+            const encodedText = encodeURIComponent(whatsappText);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+
+</body>
+</html>

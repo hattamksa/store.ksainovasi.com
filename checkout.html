@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Nama Toko Anda</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo KSAinovasi">
+            <h1>Nama Toko Anda</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about-us">About Us</a></li>
+                <li><a href="kontaktemplate2.html">Contact</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Keranjang Belanja Anda</h2>
+
+        <div id="cart-items">
+            </div>
+
+        <p id="empty-cart-message" style="display: none;">Keranjang belanja Anda kosong.</p>
+
+        <div id="cart-summary">
+            <p>Total Harga: <span id="total-price">Rp 0</span></p>
+        </div>
+
+        <hr>
+
+        <h2>Detail Pengiriman</h2>
+        <form id="checkout-form">
+            <div class="form-group">
+                <label for="customer-name">Nama Lengkap:</label>
+                <input type="text" id="customer-name" name="customerName" required>
+            </div>
+            <div class="form-group">
+                <label for="customer-address">Alamat Lengkap:</label>
+                <textarea id="customer-address" name="customerAddress" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="customer-phone">Nomor Telepon (WhatsApp):</label>
+                <input type="text" id="customer-phone" name="customerPhone" required>
+            </div>
+            <div class="form-group">
+                <label for="delivery-notes">Catatan Tambahan (Opsional):</label>
+                <textarea id="delivery-notes" name="deliveryNotes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="submit-order-button">Kirim Pesanan via WhatsApp</button>
+        </form>
+    </div>
+
+     <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>KSAinovasi</h4>
+                <p>Providing high-quality products and exceptional service since 2010.</p>
+                <p>Your trusted partner for all your needs.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#about-us">About Us</a></li>
+                    <li><a href="kontaktemplate2.html">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <p>📍 123 Business Street, Jakarta, Indonesia</p>
+                <p>📞 +62 87886425562</p>
+                <p>📧 info@ksainovasi.com</p>
+                <p>🕒 Monday-Friday: 9am to 5pm</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 KSAinovasi. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const cartItemsContainer = document.getElementById('cart-items');
+        const totalPriceSpan = document.getElementById('total-price');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const checkoutForm = document.getElementById('checkout-form');
+        const whatsappNumber = '6287886425562'; // Nomor WhatsApp tujuan pesanan
+
+        let cart = []; // Inisialisasi keranjang
+
+        function loadCart() {
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+            renderCart();
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function renderCart() {
+            cartItemsContainer.innerHTML = ''; // Kosongkan tampilan keranjang
+            let total = 0;
+
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                cartItemsContainer.style.display = 'none';
+                document.getElementById('cart-summary').style.display = 'none';
+                checkoutForm.style.display = 'none';
+                return;
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cartItemsContainer.style.display = 'block';
+                document.getElementById('cart-summary').style.display = 'block';
+                checkoutForm.style.display = 'block';
+            }
+
+            cart.forEach(item => {
+                const itemTotal = item.numericPrice * item.quantity;
+                total += itemTotal;
+
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+                cartItemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="item-details">
+                        <h4>${item.title}</h4>
+                        <p>Harga: ${item.price}</p>
+                    </div>
+                    <div class="item-actions">
+                        <input type="number" value="${item.quantity}" min="1" data-item-id="${item.id}" class="item-quantity">
+                        <button class="remove-item-button" data-item-id="${item.id}">Hapus</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+
+            totalPriceSpan.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+
+            // Add event listeners for quantity change and remove button
+            document.querySelectorAll('.item-quantity').forEach(input => {
+                input.addEventListener('change', updateQuantity);
+            });
+            document.querySelectorAll('.remove-item-button').forEach(button => {
+                button.addEventListener('click', removeItem);
+            });
+        }
+
+        function updateQuantity(event) {
+            const itemId = event.target.dataset.itemId;
+            const newQuantity = parseInt(event.target.value);
+
+            const itemIndex = cart.findIndex(item => item.id === itemId);
+            if (itemIndex > -1 && newQuantity > 0) {
+                cart[itemIndex].quantity = newQuantity;
+                saveCart();
+                renderCart();
+            } else if (newQuantity <= 0) {
+                removeItem(event); // Hapus jika kuantitas jadi 0 atau kurang
+            }
+        }
+
+        function removeItem(event) {
+            const itemId = event.target.dataset.itemId;
+            cart = cart.filter(item => item.id !== itemId);
+            saveCart();
+            renderCart();
+        }
+
+        checkoutForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            if (cart.length === 0) {
+                alert('Keranjang belanja Anda kosong. Silakan tambahkan produk terlebih dahulu.');
+                return;
+            }
+
+            const customerName = document.getElementById('customer-name').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const deliveryNotes = document.getElementById('delivery-notes').value;
+
+            let orderDetails = "Pesanan Baru:\n\n";
+            let totalOrderPrice = 0;
+
+            cart.forEach(item => {
+                orderDetails += `- ${item.title} (${item.quantity}x) @ ${item.price}\n`;
+                totalOrderPrice += item.numericPrice * item.quantity;
+            });
+
+            orderDetails += `\nTotal Harga: Rp ${totalOrderPrice.toLocaleString('id-ID')}`;
+            orderDetails += `\n\nDetail Pelanggan:\n`;
+            orderDetails += `Nama: ${customerName}\n`;
+            orderDetails += `Alamat: ${customerAddress}\n`;
+            orderDetails += `Telepon: ${customerPhone}\n`;
+            if (deliveryNotes) {
+                orderDetails += `Catatan: ${deliveryNotes}\n`;
+            }
+            orderDetails += `\nTerima kasih atas pesanan Anda!`;
+
+            const encodedOrder = encodeURIComponent(orderDetails);
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedOrder}`;
+
+            window.open(whatsappUrl, '_blank');
+
+            // Opsional: Kosongkan keranjang setelah pesanan dikirim
+            localStorage.removeItem('cart');
+            cart = [];
+            renderCart();
+            alert('Pesanan Anda telah dikirim via WhatsApp! Kami akan segera menghubungi Anda.');
+            checkoutForm.reset(); // Reset form
+        });
+
+        // Load cart when the page loads
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+
+</body>
+</html>
